@@ -31,38 +31,31 @@ var saferClass = (function (exports) {
     return descriptor;
   };
 
-  var index = Class => {
-    const Super = Class;
-    const classNames = [];
-    const classDescriptors = [];
-    const protoNames = [];
-    const protoDescriptors = [];
+  var saferObject = object => {
+    const self = object;
+    const names = [];
+    const descriptors = [];
     do {
-      getOwnPropertyNames(Class).forEach(name => {
-        if (!classNames.includes(name)) {
-          classNames.push(name);
-          classDescriptors.push(getOwnPropertyDescriptor(Class, name));
+      getOwnPropertyNames(object).forEach(name => {
+        if (!names.includes(name)) {
+          names.push(name);
+          descriptors.push(getOwnPropertyDescriptor(object, name));
         }
       });
-      const {prototype} = Class;
-      if (prototype)
-        getOwnPropertyNames(prototype).forEach(name => {
-          if (!protoNames.includes(name)) {
-            protoNames.push(name);
-            protoDescriptors.push(getOwnPropertyDescriptor(prototype, name));
-          }
-        });
     }
-    while (Class = getPrototypeOf(Class));
-    classNames.forEach((name, i) => {
-      defineProperty(Super, name, updated(classDescriptors[i]));
+    while (object = getPrototypeOf(object));
+    names.forEach((name, i) => {
+      defineProperty(self, name, updated(descriptors[i]));
     });
-    const {prototype} = Super;
-    protoNames.forEach((name, i) => {
-      defineProperty(prototype, name, updated(protoDescriptors[i]));
-    });
-    return Super;
+    return self;
   };
+
+  /*! (c) Andrea Giammarchi - ISC */
+
+  var index = Class => (
+    saferObject(Class.prototype),
+    saferObject(Class)
+  );
 
   
 

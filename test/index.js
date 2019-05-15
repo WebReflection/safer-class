@@ -8,3 +8,5 @@ Promise.prototype.then = function () {
 
 const sp = new SaferPromise($ => $('OK'));
 sp.then(console.log);
+
+SaferPromise.resolve('whatever').then(() => console.log('all good'));
