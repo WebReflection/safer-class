@@ -1,0 +1,49 @@
+{
+  "name": "safer-class",
+  "version": "0.0.0",
+  "description": "Flattened classes with non configurable fields.",
+  "main": "cjs/index.js",
+  "module": "esm/index.js",
+  "unpkg": "min.js",
+  "scripts": {
+    "build": "npm run cjs && npm run rollup && npm run clean && npm test && npm run min && npm run size",
+    "cjs": "ascjs esm cjs",
+    "clean": "sed -i.bck -e 's/exports\\..*//' index.js && sed -i.bck 's/return exports;/return index;/' index.js && rm index.js.bck",
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "min": "echo '/*! (c) Andrea Giammarchi - ISC */' > min.js && uglifyjs index.js -c -m >> min.js",
+    "rollup": "rollup --config rollup.config.js",
+    "size": "cat index.js | wc -c;cat min.js | wc -c;gzip -c9 min.js | wc -c",
+    "test": "istanbul cover test/index.js"
+  },
+  "keywords": [
+    "secure",
+    "function",
+    "call",
+    "apply",
+    "bind"
+  ],
+  "author": "Andrea Giammarchi",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WebReflection/safer-class.git"
+  },
+  "bugs": {
+    "url": "https://github.com/WebReflection/safer-class/issues"
+  },
+  "homepage": "https://github.com/WebReflection/safer-class#readme",
+  "dependencies": {
+    "safer-function": "^0.1.2"
+  },
+  "devDependencies": {
+    "ascjs": "^3.0.1",
+    "coveralls": "^3.0.3",
+    "istanbul": "^0.4.5",
+    "rollup": "^1.11.3",
+    "rollup-plugin-node-resolve": "^4.2.4",
+    "uglify-es": "^3.3.9"
+  },
+  "directories": {
+    "test": "test"
+  }
+}
