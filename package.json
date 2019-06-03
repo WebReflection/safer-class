@@ -33,7 +33,7 @@
   },
   "homepage": "https://github.com/WebReflection/safer-class#readme",
   "dependencies": {
-    "safer-object": "^0.2.0"
+    "safer-object": "^0.2.1"
   },
   "devDependencies": {
     "ascjs": "^3.0.1",
